@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>私のポートフォリオ</title>
+    <title>meyuke - 音楽×Web制作ポートフォリオ</title>
+    <meta name="description" content="音楽制作とWeb制作を組み合わせた独自のクリエイティブサービスを提供。プロセカNEXT応募楽曲制作実績あり。">
     <style>
         * {
             margin: 0;
@@ -13,9 +14,8 @@
         
         body {
             font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
             min-height: 100vh;
         }
         
@@ -26,351 +26,583 @@
         }
         
         header {
-            text-align: center;
-            padding: 50px 0;
-            color: white;
             position: relative;
+            text-align: center;
+            padding: 40px 0;
         }
         
-        /* ソーシャルアイコンナビゲーション */
-        .social-nav {
+        .bgm-control {
             position: absolute;
             top: 20px;
             right: 20px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        .social-icon {
-            display: inline-block;
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            text-decoration: none;
+        .bgm-toggle {
+            background: none;
+            border: none;
             color: white;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+        }
+        
+        .bgm-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .bgm-toggle.playing {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .social-nav {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .social-icon:hover {
-            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
-        /* SVGアイコンのスタイル */
-        .social-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-            transition: all 0.3s ease;
-        }
-        
-        /* 各プラットフォーム別カラー（ホバー時） */
-        .social-icon.youtube:hover {
-            background: #ff0000;
-            color: white;
-        }
-        
-        .social-icon.spotify:hover {
-            background: #1db954;
-            color: white;
-        }
-        
-        .social-icon.soundcloud:hover {
-            background: #ff8500;
-            color: white;
-        }
+        .social-icon.youtube:hover { color: #FF0000; }
+        .social-icon.spotify:hover { color: #1DB954; }
+        .social-icon.soundcloud:hover { color: #FF3300; }
         
         h1 {
             font-size: 3rem;
+            color: white;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .subtitle {
             font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .content {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
         }
         
         .section {
+            background: white;
             margin-bottom: 30px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .section h2 {
             color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
             border-bottom: 2px solid #667eea;
             padding-bottom: 10px;
-            margin-bottom: 20px;
         }
         
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .skill-tag {
-            background: #667eea;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        
-        /* YouTube動画のレスポンシブ対応 */
         .video-container {
             position: relative;
             width: 100%;
             height: 0;
-            padding-bottom: 56.25%; /* 16:9のアスペクト比 */
-            margin: 30px 0;
+            padding-bottom: 56.25%;
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
-
+        
         .video-container iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: none;
         }
-
-        /* カード型配信リンク */
+        
         .streaming-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .streaming-link {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .streaming-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .streaming-link:hover::before {
+            left: 100%;
+        }
+        
+        .streaming-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .spotify { background: linear-gradient(135deg, #1DB954, #1ed760); }
+        .apple { background: linear-gradient(135deg, #FA233B, #FB5C74); }
+        .youtube-music { background: linear-gradient(135deg, #FF0000, #FF6B6B); }
+        .soundcloud { background: linear-gradient(135deg, #FF3300, #FF7700); }
+        .amazon { background: linear-gradient(135deg, #00A8CC, #0078AA); }
+        .line { background: linear-gradient(135deg, #00B900, #00D900); }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
             gap: 20px;
             margin-top: 20px;
         }
-
-        .stream-card {
-            display: flex;
-            align-items: center;
+        
+        .contact-item {
+            flex: 1;
+            min-width: 200px;
             padding: 20px;
-            text-decoration: none;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            text-align: center;
         }
-
-        .stream-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        
+        .music-note {
+            display: inline-block;
+            margin-right: 8px;
+            animation: bounce 2s infinite;
         }
-
-        .stream-icon {
-            font-size: 2rem;
-            margin-right: 15px;
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
-
-        .stream-info h4 {
-            margin: 0;
-            font-size: 1.1rem;
-        }
-
-        .stream-info p {
-            margin: 5px 0 0 0;
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        /* プラットフォーム別の色 */
-        .spotify {
-            background: linear-gradient(135deg, #1db954, #1ed760);
-        }
-
-        .apple {
-            background: linear-gradient(135deg, #fa233b, #fb5c74);
-        }
-
-        .youtube {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
-        }
-
-        .soundcloud {
-            background: linear-gradient(135deg, #ff8500, #ff9500);
-        }
-
-        .amazon {
-            background: linear-gradient(135deg, #00a8e1, #0073e6);
-        }
-
-        .line-music {
-            background: linear-gradient(135deg, #00c300, #00b900);
+        
+        .bgm-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
         }
         
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            .content {
-                margin: 10px;
-                padding: 20px;
-            }
-            .streaming-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stream-card {
-                padding: 15px;
-            }
-            
-            /* スマホでのソーシャルアイコン調整 */
-            .social-nav {
-                top: 15px;
-                right: 15px;
-                gap: 10px;
-            }
-            
-            .social-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.3rem;
-            }
+            h1 { font-size: 2rem; }
+            .section { padding: 20px; }
+            .streaming-grid { grid-template-columns: 1fr; }
+            .social-icon { width: 40px; height: 40px; font-size: 16px; }
+            .bgm-control { top: 10px; right: 10px; padding: 8px 12px; }
+            .social-nav { top: 10px; left: 10px; }
+            .contact-info { flex-direction: column; }
+        }
+        
+        .wave-animation {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .wave-bar {
+            display: inline-block;
+            width: 3px;
+            height: 15px;
+            background: white;
+            margin: 0 1px;
+            border-radius: 3px;
+            animation: wave 1s ease-in-out infinite;
+        }
+        
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        
+        @keyframes wave {
+            0%, 100% { height: 15px; }
+            50% { height: 5px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <!-- ソーシャルアイコンナビゲーション -->
             <div class="social-nav">
-                <a href="https://www.youtube.com/channel/YOUR_CHANNEL_ID" target="_blank" class="social-icon youtube" title="YouTube Channel">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
+                <a href="https://www.youtube.com/@meyuke" class="social-icon youtube" target="_blank" title="YouTube">
+                    ♪
                 </a>
-                <a href="https://open.spotify.com/artist/YOUR_ARTIST_ID" target="_blank" class="social-icon spotify" title="Spotify">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.959-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.361 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
-                    </svg>
+                <a href="https://open.spotify.com/artist/your-spotify" class="social-icon spotify" target="_blank" title="Spotify">
+                    ♫
                 </a>
-                <a href="https://soundcloud.com/YOUR_USERNAME" target="_blank" class="social-icon soundcloud" title="SoundCloud">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.175 12.225c-.051 0-.094.046-.101.1l-.233 2.154.233 2.105c.007.058.05.098.101.098.05 0 .09-.04.099-.098l.255-2.105-.255-2.154c-.009-.057-.049-.1-.099-.1zm1.116.961c-.058 0-.104.056-.104.117l-.203 1.193.203 1.151c0 .061.046.117.104.117.061 0 .11-.056.11-.117l.221-1.151-.221-1.193c0-.061-.049-.117-.11-.117zm1.108-.841c-.068 0-.122.063-.122.135l-.19 2.034.19 1.955c0 .072.054.135.122.135.067 0 .118-.063.118-.135l.21-1.955-.21-2.034c0-.072-.051-.135-.118-.135zm1.079-1.137c-.077 0-.138.068-.138.154l-.18 3.171.18 2.979c0 .086.061.154.138.154.075 0 .136-.068.136-.154l.198-2.979-.198-3.171c0-.086-.061-.154-.136-.154zm1.054-.16c-.084 0-.153.081-.153.179l-.161 3.331.161 3.093c0 .098.069.179.153.179.086 0 .155-.081.155-.179l.181-3.093-.181-3.331c0-.098-.069-.179-.155-.179zm1.008.146c-.094 0-.168.088-.168.195l-.153 3.185.153 3.001c0 .107.074.195.168.195.095 0 .17-.088.17-.195l.17-3.001-.17-3.185c0-.107-.075-.195-.17-.195zm.993.132c-.101 0-.18.094-.18.211l-.145 3.053.145 2.921c0 .117.079.211.18.211.1 0 .178-.094.178-.211l.163-2.921-.163-3.053c0-.117-.078-.211-.178-.211zm.974.154c-.11 0-.198.103-.198.23l-.135 2.899.135 2.735c0 .127.088.23.198.23.11 0 .197-.103.197-.23l.154-2.735-.154-2.899c0-.127-.087-.23-.197-.23zm.966.136c-.118 0-.212.112-.212.25l-.126 2.763.126 2.629c0 .138.094.25.212.25.117 0 .211-.112.211-.25l.144-2.629-.144-2.763c0-.138-.094-.25-.211-.25zm.94.18c-.124 0-.223.119-.223.266l-.118 2.583.118 2.535c0 .147.099.266.223.266.123 0 .221-.119.221-.266l.135-2.535-.135-2.583c0-.147-.098-.266-.221-.266zm.918.171c-.13 0-.232.126-.232.282l-.11 2.412.11 2.447c0 .156.102.282.232.282.131 0 .234-.126.234-.282l.125-2.447-.125-2.412c0-.156-.103-.282-.234-.282zm.906.15c-.137 0-.246.133-.246.297l-.101 2.262.101 2.367c0 .164.109.297.246.297.135 0 .244-.133.244-.297l.117-2.367-.117-2.262c0-.164-.109-.297-.244-.297zm.895.137c-.144 0-.257.139-.257.312l-.093 2.125.093 2.282c0 .173.113.312.257.312.143 0 .256-.139.256-.312l.108-2.282-.108-2.125c0-.173-.113-.312-.256-.312zm.883.125c-.151 0-.269.146-.269.327l-.084 2.0.084 2.202c0 .181.118.327.269.327.15 0 .267-.146.267-.327l.099-2.202-.099-2.0c0-.181-.117-.327-.267-.327zm.87.113c-.157 0-.28.152-.28.34l-.076 1.887.076 2.127c0 .188.123.34.28.34.156 0 .279-.152.279-.34l.09-2.127-.09-1.887c0-.188-.123-.34-.279-.34zm.858.1c-.164 0-.292.159-.292.355l-.067 1.787.067 2.056c0 .196.128.355.292.355.163 0 .291-.159.291-.355l.082-2.056-.082-1.787c0-.196-.128-.355-.291-.355zm8.294-.355c-.395 0-.716.042-1.059-.025-.44-.086-.788-.44-.926-.44-.22 0-.399.179-.399.399v8.456c0 .22.179.399.399.399H22.8c.66 0 1.2-.54 1.2-1.2v-6.389c0-.66-.54-1.2-1.2-1.2z"/>
-                    </svg>
+                <a href="https://soundcloud.com/meyuke" class="social-icon soundcloud" target="_blank" title="SoundCloud">
+                    ♪
                 </a>
             </div>
             
-            <h1>My Portfolio</h1>
-            <p class="subtitle">音楽 × Web制作</p>
+            <div class="bgm-control">
+                <button class="bgm-toggle" id="bgmToggle" title="BGMをON/OFF">
+                    🎵
+                </button>
+                <div class="volume-control">
+                    <span style="color: white; font-size: 12px;">🔊</span>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
+                </div>
+                <div class="wave-animation" id="waveAnimation" style="display: none;">
+                    <span class="wave-bar"></span>
+                    <span class="wave-bar"></span>
+                    <span class="wave-bar"></span>
+                    <span class="wave-bar"></span>
+                </div>
+            </div>
+            
+            <h1>meyuke</h1>
+            <p class="subtitle">音楽制作 × Web制作 クリエイター</p>
         </header>
-        
-        <div class="content">
-            <div class="section">
-                <h2>🎵 About Me</h2>
-                <p>こんにちは！音楽制作とWeb制作の両方に情熱を注いでいます。</p>
-                <p>創造性と技術を融合させた、ユニークなWebサイト制作を目指しています。</p>
-                
-                <div class="skills">
-                    <span class="skill-tag">HTML/CSS</span>
-                    <span class="skill-tag">PHP</span>
-                    <span class="skill-tag">MySQL</span>
-                    <span class="skill-tag">作曲</span>
-                    <span class="skill-tag">音楽制作</span>
-                </div>
+
+        <section class="section">
+            <h2><span class="music-note">♪</span>About Me</h2>
+            <div class="bgm-info">
+                <strong>🎵 BGM再生中：</strong>オリジナル楽曲「空に放てこの歌を」のインストゥルメンタル版<br>
+                <small>※音量調整・ON/OFF切り替えは右上のコントロールから</small>
             </div>
-            
-            <div class="section">
-                <h2>🚀 現在の取り組み</h2>
-                <p>GitHub Pagesを使ったポートフォリオサイトの構築中です。</p>
-                <p>将来的には音楽業界特化のLP制作者として活動予定！</p>
-            </div>
-            
-            <div class="section">
-                <h2>🎬 Music Videos</h2>
-                <p>私の音楽制作実績をご覧ください</p>
-    
-                <!-- YouTube動画埋め込み -->
-                <div class="video-container">
-                    <iframe 
-                        src="https://www.youtube.com/embed/ogbk4SePf80?list=RDogbk4SePf80" 
-                        title="空に放てこの歌を feat.初音ミク【第25回プロセカNEXT応募楽曲】"
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        referrerpolicy="strict-origin-when-cross-origin"
+            <p>音楽制作とWeb制作、両方のスキルを活かして独自のクリエイティブサービスを提供しています。</p>
+            <p>プロセカNEXT第25回応募実績を持つ音楽制作者として、BGM付きWebサイトや音楽業界特化のLP制作を得意としています。</p>
+            <p><strong>差別化ポイント：</strong>BGM制作からWeb制作まで一貫したクリエイティブ制作が可能</p>
+        </section>
+
+        <section class="section">
+            <h2>現在の取り組み</h2>
+            <p>プロセカNEXT第25回に応募した楽曲「空に放てこの歌を feat.初音ミク」を制作し、音楽制作者としての実績を積んでいます。</p>
+            <p>同時に、この音楽制作スキルを活かしたWeb制作サービスの展開を準備中です。</p>
+            <ul style="margin-top: 15px; padding-left: 20px;">
+                <li>🎵 BGM付きWebサイト制作</li>
+                <li>🎶 音楽業界特化のLP制作</li>
+                <li>🎧 サウンドデザイン込みのUI/UX設計</li>
+                <li>🎼 楽曲制作とWeb制作のパッケージ提案</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Music Videos</h2>
+            <p>最新楽曲「空に放てこの歌を feat.初音ミク」のミュージックビデオです。</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/ogbk4SePf80?list=RDogbk4SePf80" 
+                        title="空に放てこの歌を feat.初音ミク" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
-                    </iframe>
+                </iframe>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Listen Now</h2>
+            <p>各配信プラットフォームで楽曲をお聴きいただけます：</p>
+            <div class="streaming-grid">
+                <a href="#" class="streaming-link spotify">Spotify</a>
+                <a href="#" class="streaming-link apple">Apple Music</a>
+                <a href="#" class="streaming-link youtube-music">YouTube Music</a>
+                <a href="#" class="streaming-link soundcloud">SoundCloud</a>
+                <a href="#" class="streaming-link amazon">Amazon Music</a>
+                <a href="#" class="streaming-link line">LINE MUSIC</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Services</h2>
+            <h3 style="color: #667eea; margin-bottom: 15px;">🎵 音楽×Web制作サービス</h3>
+            <div style="display: grid; gap: 20px; margin-top: 20px;">
+                <div style="padding: 20px; border: 2px solid #667eea; border-radius: 10px;">
+                    <h4 style="color: #667eea;">BGM付きLP制作</h4>
+                    <p>オリジナルBGM制作からWebサイト制作まで一貫対応</p>
+                    <small style="color: #666;">料金目安: 15万円〜（BGM制作込み）</small>
+                </div>
+                <div style="padding: 20px; border: 2px solid #764ba2; border-radius: 10px;">
+                    <h4 style="color: #764ba2;">音楽業界特化LP</h4>
+                    <p>アーティスト・音楽教室・楽器店向け専門サイト</p>
+                    <small style="color: #666;">料金目安: 10万円〜</small>
+                </div>
+                <div style="padding: 20px; border: 2px solid #1DB954; border-radius: 10px;">
+                    <h4 style="color: #1DB954;">サウンドデザイン</h4>
+                    <p>Webサイトの効果音・BGM・サウンドロゴ制作</p>
+                    <small style="color: #666;">料金目安: 5万円〜</small>
                 </div>
             </div>
+        </section>
 
-            <div class="section">
-                <h2>🎧 Listen Now</h2>
-                <p>「空に放てこの歌を」を各プラットフォームでお聴きください</p>
-                
-                <div class="streaming-grid">
-                    <a href="https://open.spotify.com/track/demo" target="_blank" class="stream-card spotify">
-                        <div class="stream-icon">♪</div>
-                        <div class="stream-info">
-                            <h4>Spotify</h4>
-                            <p>今すぐ再生</p>
-                        </div>
-                    </a>
-                    
-                    <a href="https://music.apple.com/song/demo" target="_blank" class="stream-card apple">
-                        <div class="stream-icon">🍎</div>
-                        <div class="stream-info">
-                            <h4>Apple Music</h4>
-                            <p>高音質で聴く</p>
-                        </div>
-                    </a>
-                    
-                    <a href="https://www.youtube.com/watch?v=ogbk4SePf80" target="_blank" class="stream-card youtube">
-                        <div class="stream-icon">▶️</div>
-                        <div class="stream-info">
-                            <h4>YouTube</h4>
-                            <p>MVと一緒に</p>
-                        </div>
-                    </a>
-
-                    <a href="https://soundcloud.com/demo" target="_blank" class="stream-card soundcloud">
-                        <div class="stream-icon">☁️</div>
-                        <div class="stream-info">
-                            <h4>SoundCloud</h4>
-                            <p>無料で聴く</p>
-                        </div>
-                    </a>
-
-                    <a href="https://music.amazon.com/demo" target="_blank" class="stream-card amazon">
-                        <div class="stream-icon">🎵</div>
-                        <div class="stream-info">
-                            <h4>Amazon Music</h4>
-                            <p>Unlimited対応</p>
-                        </div>
-                    </a>
-
-                    <a href="https://music.line.me/demo" target="_blank" class="stream-card line-music">
-                        <div class="stream-icon">📱</div>
-                        <div class="stream-info">
-                            <h4>LINE MUSIC</h4>
-                            <p>日本最大級</p>
-                        </div>
-                    </a>
+        <section class="section">
+            <h2>Contact</h2>
+            <p>音楽×Web制作のご相談、お仕事のご依頼はお気軽にお問い合わせください。</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>contact@meyuke.com</p>
+                </div>
+                <div class="contact-item">
+                    <h3>💼 Portfolio</h3>
+                    <p>GitHub Pages</p>
+                </div>
+                <div class="contact-item">
+                    <h3>🎵 Speciality</h3>
+                    <p>音楽業界特化Web制作</p>
                 </div>
             </div>
-            
-            <div class="section">
-                <h2>📧 Contact</h2>
-                <p>お気軽にお声がけください。一緒に素晴らしいWebサイトを作りましょう！</p>
-            </div>
-        </div>
+        </section>
     </div>
+
+    <audio id="bgmAudio" loop preload="auto">
+        <!-- 実際の音楽ファイルに置き換えてください -->
+        <source src="./audio/portfolio-bgm.mp3" type="audio/mpeg">
+        <source src="./audio/portfolio-bgm.ogg" type="audio/ogg">
+    </audio>
+
+    <script>
+        // BGM制御機能
+        class BGMController {
+            constructor() {
+                this.audio = document.getElementById('bgmAudio');
+                this.toggleButton = document.getElementById('bgmToggle');
+                this.volumeSlider = document.getElementById('volumeSlider');
+                this.waveAnimation = document.getElementById('waveAnimation');
+                this.isPlaying = false;
+                this.userInteracted = false;
+                
+                this.init();
+            }
+            
+            init() {
+                // 初期音量設定
+                this.audio.volume = this.volumeSlider.value / 100;
+                
+                // イベントリスナー設定
+                this.toggleButton.addEventListener('click', () => this.toggleBGM());
+                this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
+                
+                // ユーザーの最初のクリックを検知
+                document.addEventListener('click', () => this.handleUserInteraction(), { once: true });
+                
+                // オーディオの状態監視
+                this.audio.addEventListener('play', () => this.onPlay());
+                this.audio.addEventListener('pause', () => this.onPause());
+                this.audio.addEventListener('ended', () => this.onPause());
+                
+                // エラーハンドリング
+                this.audio.addEventListener('error', (e) => {
+                    console.log('BGMファイルが見つかりません。デモ環境では音声は再生されません。');
+                    this.showDemoMessage();
+                });
+            }
+            
+            handleUserInteraction() {
+                this.userInteracted = true;
+                // 自動再生を試行（音声ファイルがある場合のみ）
+                if (this.audio.src && !this.isPlaying) {
+                    this.playBGM();
+                }
+            }
+            
+            toggleBGM() {
+                if (this.isPlaying) {
+                    this.pauseBGM();
+                } else {
+                    this.playBGM();
+                }
+            }
+            
+            playBGM() {
+                if (!this.userInteracted) {
+                    alert('BGMを再生するには、まずページ内をクリックしてください。');
+                    return;
+                }
+                
+                this.audio.play().then(() => {
+                    this.isPlaying = true;
+                    this.updateUI();
+                }).catch(error => {
+                    console.log('BGM再生に失敗しました（デモ環境）:', error);
+                    this.simulatePlayback();
+                });
+            }
+            
+            pauseBGM() {
+                this.audio.pause();
+                this.isPlaying = false;
+                this.updateUI();
+            }
+            
+            setVolume(value) {
+                this.audio.volume = value / 100;
+            }
+            
+            onPlay() {
+                this.isPlaying = true;
+                this.updateUI();
+            }
+            
+            onPause() {
+                this.isPlaying = false;
+                this.updateUI();
+            }
+            
+            updateUI() {
+                if (this.isPlaying) {
+                    this.toggleButton.innerHTML = '⏸️';
+                    this.toggleButton.classList.add('playing');
+                    this.toggleButton.title = 'BGMを停止';
+                    this.waveAnimation.style.display = 'inline-block';
+                } else {
+                    this.toggleButton.innerHTML = '🎵';
+                    this.toggleButton.classList.remove('playing');
+                    this.toggleButton.title = 'BGMを再生';
+                    this.waveAnimation.style.display = 'none';
+                }
+            }
+            
+            simulatePlayback() {
+                // デモ環境用のUI模擬制御
+                this.isPlaying = true;
+                this.updateUI();
+                
+                // 10秒後に自動停止（デモ用）
+                setTimeout(() => {
+                    this.isPlaying = false;
+                    this.updateUI();
+                }, 10000);
+            }
+            
+            showDemoMessage() {
+                const demoAlert = document.createElement('div');
+                demoAlert.innerHTML = `
+                    <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); 
+                                background: rgba(255, 255, 255, 0.95); padding: 15px 25px; 
+                                border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+                                z-index: 1000; max-width: 400px; text-align: center;">
+                        <strong>🎵 デモ環境</strong><br>
+                        実際の運用時は、BGMファイル（portfolio-bgm.mp3）を<br>
+                        audioフォルダに配置してください。
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                style="margin-top: 10px; padding: 5px 15px; 
+                                       background: #667eea; color: white; border: none; 
+                                       border-radius: 5px; cursor: pointer;">
+                            OK
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(demoAlert);
+                
+                // 5秒後に自動で消去
+                setTimeout(() => {
+                    if (demoAlert.parentElement) {
+                        demoAlert.remove();
+                    }
+                }, 5000);
+            }
+        }
+        
+        // スムーズスクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // 初期化
+        document.addEventListener('DOMContentLoaded', () => {
+            new BGMController();
+            
+            // パフォーマンス監視
+            if ('performance' in window) {
+                window.addEventListener('load', () => {
+                    console.log('ページ読み込み完了:', performance.now() + 'ms');
+                });
+            }
+        });
+        
+        // サービスワーカー登録（将来的なPWA化のため）
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // 実装時にコメントアウト解除
+                // navigator.serviceWorker.register('./sw.js');
+            });
+        }
+    </script>
 </body>
 </html>
